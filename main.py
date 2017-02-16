@@ -58,7 +58,7 @@ class MainPage(Handler):
             a = Art(title = title, art = art)
             a.put()
 
-            self.redirect("/blog")
+            self.redirect("/blog/{}".format(a.key().id()))
 
         else:
             error = "we need both a title and some blogging!"
