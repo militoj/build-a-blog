@@ -70,6 +70,7 @@ class Blog(Handler):
                             "ORDER BY created DESC "
                             "LIMIT 5")
 
+
         self.render("blogpage.html", title=title, art=art, error=error, arts=arts)
 
 
