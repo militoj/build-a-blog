@@ -42,10 +42,10 @@ class Art(db.Model):
 
 class MainPage(Handler):
     def render_front(self, title="", art="", error=""):
-        arts = db.GqlQuery("SELECT * FROM Art "
-                            "ORDER BY created DESC ")
+        # arts = db.GqlQuery("SELECT * FROM Art "
+        #                     "ORDER BY created DESC ")
 
-        self.render("front.html", title=title, art=art, error=error, arts=arts)
+        self.render("front.html", title=title, art=art, error=error)
 
     def get(self):
         self.render_front()
@@ -58,9 +58,23 @@ class MainPage(Handler):
             a = Art(title = title, art = art)
             a.put()
 
-            self.redirect("/")
+            self.redirect("/blog")
+
         else:
-            error = "we need both a title and some artwork!"
+            error = "we need both a title and some blogging!"
             self.render_front(title, art, error)
 
-app = webapp2.WSGIApplication([('/', MainPage)], debug=True)
+class Blog(Handler):
+    def render_front(self, title="", art="", error=""):
+        arts = db.GqlQuery("SELECT * FROM Art "
+                            "ORDER BY created DESC "
+                            "LIMIT 5")
+
+        self.render("blogpage.html", title=title, art=art, error=error, arts=arts)
+
+
+    def get(self):
+        self.render_front()
+
+
+app = webapp2.WSGIApplication([('/', MainPage),('/blog', Blog)], debug=True)
