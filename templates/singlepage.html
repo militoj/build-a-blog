@@ -74,13 +74,17 @@
     </form>
 
     <hr> -->
+      {% if arts %}
+        <div class="art">
+          <div class="art-title">{{arts.title}}</div>
+          <pre class="art-body">{{arts.art}}</pre>
+        </div>
+      {% else %}
+        <div class="art">
+          <div class="error">{{error}}</div>
+        </div>
+      {% endif %}
 
-    {% for art in arts %}
-      <div class="art">
-        <div class="art-title">{{art.title}}</div>
-        <pre class="art-body">{{art.art}}</pre>
-      </div>
-    {% endfor %}
 
   </body>
 </html>

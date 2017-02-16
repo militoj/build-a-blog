@@ -77,4 +77,22 @@ class Blog(Handler):
         self.render_front()
 
 
-app = webapp2.WSGIApplication([('/', MainPage),('/blog', Blog)], debug=True)
+class ViewPostHandler(Handler):
+    def render_front(self, id, title="", art="", error=""):
+        arts = Art.get_by_id(int(id))
+        if not arts:
+            self.render("singlepage.html", error="Page does not exist")
+
+
+
+        self.render("singlepage.html", title=title, art=art, error=error, arts=arts)
+
+
+
+    def get(self, id):
+        self.render_front(id)
+
+app = webapp2.WSGIApplication([('/', MainPage),
+                            ('/blog', Blog),
+                            webapp2.Route('/blog/<id:\d+>', ViewPostHandler)],
+                            debug=True)
